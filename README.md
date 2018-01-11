@@ -7,9 +7,12 @@ This is a REST web service using spring+JPA+Mongodb which will be used to save G
 
 How to Run
 1.) Clone the repo
+
 2.) Install (https://docs.mongodb.com/v3.0/tutorial/install-mongodb-on-ubuntu/) & Run the mongo db
+
 3.) cd to project folder & run thid command
     mvn org.mortbay.jetty:maven-jetty-plugin:run
+    
 
 4.)
 
