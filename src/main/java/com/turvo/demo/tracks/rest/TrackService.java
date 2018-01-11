@@ -23,21 +23,12 @@ import java.util.List;
 @RequestMapping("/track")
 public class TrackService {
 
-    public static final Double KILOMETER = 111.0d;
 
-    /**
-     * The Attribute that is used for the search for the start position
-     */
-    public static final String START = "start";
-    /**
-     * The Attribute that is used for the search for the user
-     */
-    private static final String USER = "user";
 
     @Autowired
     @Qualifier("tracksTemplate")
     private MongoOperations mongoOps;
-    
+
 
     @RequestMapping(value = "/getPosition", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
