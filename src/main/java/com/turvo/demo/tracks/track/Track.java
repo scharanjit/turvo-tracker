@@ -2,6 +2,7 @@ package com.turvo.demo.tracks.track;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class Track implements Serializable {
 
@@ -10,6 +11,7 @@ public class Track implements Serializable {
     private Position start;
     private String user;
 
+    private List<Driver> driver;
 
     private List<Vehicle> vehicleDetails;
 
@@ -21,7 +23,14 @@ public class Track implements Serializable {
         this.vehicleDetails = vehicleDetails;
     }
 
-    private String driver;
+    public List<Driver> getDriver() {
+        return driver;
+    }
+
+    public void setDriver(List<Driver> driver) {
+        this.driver = driver;
+    }
+
 
     public String getVehicleType() {
         return vehicleType;
@@ -34,13 +43,6 @@ public class Track implements Serializable {
     private String vehicleType;
 
 
-    public String getDriver() {
-        return driver;
-    }
-
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
 
     private List<Position> data;
 

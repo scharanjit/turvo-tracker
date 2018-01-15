@@ -2,7 +2,7 @@ package com.turvo.demo.tracks.track;
 
 import java.io.Serializable;
 
-public class Vehicle  {
+public class Vehicle implements Serializable {
 
     String vehicleID;
 

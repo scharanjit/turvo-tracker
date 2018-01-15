@@ -25,13 +25,4 @@ public class Driver implements Serializable {
         this.uniqueId = uniqueId;
     }
 
-//    public Vehicle vehicleID;
-//
-//    public Vehicle getVehicleID() {
-//        return vehicleID;
-//    }
-//
-//    public void setVehicleID(Vehicle vehicleID) {
-//        this.vehicleID = vehicleID;
-//    }
 }
