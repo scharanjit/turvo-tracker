@@ -40,4 +40,27 @@ Server: Jetty(6.1.26)
 ````
 
 
+GET REQUEST
+===========
 
+1.) To track details of Vehicle based on ```Vehicle type```
+
+```http://localhost:8080/turvo-tracker/services/track/forVehicleType/Bus```
+
+
+2.) To track details of Vehicle based on ```Vehicle id```
+
+```http://localhost:8080/turvo-tracker/services/track/forVehicleID/HR07L4123```
+
+
+3.) To track details of position with ```driver name  with vehicle type```
+
+``http://localhost:8080/turvo-tracker/services/track/forDriverWithVehicleType/TestDriver/Bus``
+
+4.) To track details of position with```driver name with vehicle id```
+
+``http://localhost:8080/turvo-tracker/services/track/forDriverWithVehicleID/TestDriver/HR07L4123``
+
+5.) To track details ``with driver name``
+
+``http://localhost:8080/turvo-tracker/services/track/fordriver/TestDriver``
