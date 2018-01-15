@@ -38,7 +38,9 @@ public class TrackService {
 
     private static final String VEHICLETYPE = "vehicleType";
 
-    private static final String VEHICLEDETAILS = "vehicleDetails.vehicleType";
+    private static final String VEHICLETYPEDETAILS = "vehicleDetails.vehicleType";
+
+    private static final String VEHICLEIDDETAILS = "vehicleDetails.vehicleID";
 
     @Autowired
     @Qualifier("tracksTemplate")
@@ -119,8 +121,18 @@ public class TrackService {
     @RequestMapping(value = "/forDriverWithVehicleType/{driver}/{vehicleType}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<Track> tracksForDriverWithVehicle(@PathVariable("driver") String driver, @PathVariable("vehicleType") String vehicleType) throws Exception {
-        Criteria criteria = Criteria.where(DRIVER).is(driver).and(VEHICLEDETAILS).is(vehicleType);
+    List<Track> tracksForDriverWithVehicleType(@PathVariable("driver") String driver, @PathVariable("vehicleType") String vehicleType) throws Exception {
+        Criteria criteria = Criteria.where(DRIVER).is(driver).and(VEHICLETYPEDETAILS).is(vehicleType);
+        List<Track> tracks = mongoOps.find(new Query(criteria),
+                Track.class);
+        return tracks;
+    }
+
+    @RequestMapping(value = "/forDriverWithVehicleID/{driver}/{vehicleID}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<Track> tracksForDriverWithVehicleID(@PathVariable("driver") String driver, @PathVariable("vehicleID") String vehicleID) throws Exception {
+        Criteria criteria = Criteria.where(DRIVER).is(driver).and(VEHICLEIDDETAILS).is(vehicleID);
         List<Track> tracks = mongoOps.find(new Query(criteria),
                 Track.class);
         return tracks;
@@ -129,12 +141,23 @@ public class TrackService {
     @RequestMapping(value = "/forVehicleType/{vehicleType}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<Track> tracksForVehicle( @PathVariable("vehicleType") String vehicleType) throws Exception {
-        Criteria criteria = Criteria.where(VEHICLEDETAILS).is(vehicleType);
+    List<Track> tracksForVehicleType( @PathVariable("vehicleType") String vehicleType) throws Exception {
+        Criteria criteria = Criteria.where(VEHICLETYPEDETAILS).is(vehicleType);
         List<Track> tracks = mongoOps.find(new Query(criteria),
                 Track.class);
         return tracks;
     }
+
+    @RequestMapping(value = "/forVehicleID/{vehicleID}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<Track> tracksForVehicleID( @PathVariable("vehicleID") String vehicleID) throws Exception {
+        Criteria criteria = Criteria.where(VEHICLEIDDETAILS).is(vehicleID);
+        List<Track> tracks = mongoOps.find(new Query(criteria),
+                Track.class);
+        return tracks;
+    }
+
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
