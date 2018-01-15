@@ -39,6 +39,37 @@ Server: Jetty(6.1.26)
 
 ````
 
+POST DATA
+=========
+
+In order to post GPS data to turvo tracker, follow below steps
+
+````
+1. Run the application **mvn org.mortbay.jetty:maven-jetty-plugin:run**
+2. Go to **http://localhost:8080/turvo-tracker/**
+3. username:- **_charan@charan.com_** password:- **_charan_**  & submit
+4. Select Upload tracks & choose file
+5. Sample data is available **/src/test/resources/tracks/** folder
+6. Upload any .js file
+7. In order to test data, follow below GET request command
+
+````
+
+View Posted Data
+================
+
+In order to view uploaded tracks by a user, follow below steps
+
+````
+1. Run the application **mvn org.mortbay.jetty:maven-jetty-plugin:run**
+2. Go to **http://localhost:8080/turvo-tracker/**
+3. username:- **_charan@charan.com_** password:- **_charan_**  & submit
+4. Select Your Tracks option :- http://localhost:8080/turvo-tracker/secure/index.html#view_user_tracks
+
+It will display the tracks file uploaded
+
+````
+
 
 GET REQUEST
 ===========
