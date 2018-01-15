@@ -92,3 +92,12 @@ http://localhost:8080/turvo-tracker/services/track/fordriver/{driver}
 http://localhost:8080/turvo-tracker/services/track/fordriver/TestDriver
 
 ````
+
+6.) To track details ``with driver name  & vehicle type & datetime``
+
+````
+http://localhost:8080/turvo-tracker/services/track/forDriverWithVehicleTypeAndDate/{driver}/{vehicleType}/datetime/
+
+http://localhost:8080/turvo-tracker/services/track/forDriverWithVehicleTypeAndDate/TestDriver/Bus/2012-10-01T09:45:00.000UTC+00:00/
+
+````

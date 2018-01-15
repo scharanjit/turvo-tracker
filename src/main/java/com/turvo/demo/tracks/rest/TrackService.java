@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -41,6 +43,8 @@ public class TrackService {
     private static final String VEHICLETYPEDETAILS = "vehicleDetails.vehicleType";
 
     private static final String VEHICLEIDDETAILS = "vehicleDetails.vehicleID";
+
+    private static final String DATE = "data.date";
 
     @Autowired
     @Qualifier("tracksTemplate")
@@ -158,6 +162,18 @@ public class TrackService {
         return tracks;
     }
 
+
+    @RequestMapping(value = "/forDriverWithVehicleTypeAndDate/{driver}/{vehicleType}/{date}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<Track> tracksForDriverWithVehicleTypeAndDate(@PathVariable("driver") String driver, @PathVariable("vehicleType") String vehicleType,  @PathVariable("date") String date) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
+        Date dateObj = sdf.parse(date);
+        Criteria criteria = Criteria.where(DRIVER).is(driver).and(VEHICLETYPEDETAILS).is(vehicleType).and(DATE).is(dateObj);
+        List<Track> tracks = mongoOps.find(new Query(criteria),
+                Track.class);
+        return tracks;
+    }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
