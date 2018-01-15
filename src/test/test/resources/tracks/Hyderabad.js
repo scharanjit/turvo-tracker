@@ -2,6 +2,12 @@
     "name": "Hyderabad",
     "start": { "lon":11.5587932, "lat":48.1291487, "ele":510.59729 },
     "user": "charan@charan.com",
+    "driver" : "TestDriver",
+    "vehicleDetails":
+    [
+        { "vehicleID":"HR07L4123" ,"vehicleType":"Bus" ,"vehicleSpeed":30}
+
+    ],
     "data":
     [
         {"lon":11.5587932, "lat":48.1291487, "ele":510.59729},

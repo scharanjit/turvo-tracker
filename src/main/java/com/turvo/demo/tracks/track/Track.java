@@ -4,11 +4,43 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Track implements Serializable {
-    
+
     private String id;
     private String name;
     private Position start;
     private String user;
+
+
+    private List<Vehicle> vehicleDetails;
+
+    public List<Vehicle> getVehicleDetails() {
+        return vehicleDetails;
+    }
+
+    public void setVehicleDetails(List<Vehicle> vehicleDetails) {
+        this.vehicleDetails = vehicleDetails;
+    }
+
+    private String driver;
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    private String vehicleType;
+
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
 
     private List<Position> data;
 
