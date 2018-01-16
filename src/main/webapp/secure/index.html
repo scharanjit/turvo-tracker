@@ -1,71 +1,80 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-        <title>Turvo Tracker App</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-        <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-        <script type="text/javascript" src="../js/jquery.flot.min.js"></script>
-        <script type="text/javascript" src="../js/tempo.min.js"></script>
-        <script type="text/javascript" src="../js/main.js"></script>
-    </head>
-    <body>
-        <div data-role="page" id="home" style="width:100%; height:100%;">
-            <div data-role="header" data-position="fixed"><h2>Turvo Track</h2></div>
-            <div data-role="content" style="padding:0;">
-                <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="a">
-                    <li data-role="list-divider">Options</li>
-                    <!--<li><a href="#view_map" data-transition="pop">View tracks near you</a></li>-->
-                    <li><a href="#view_user_tracks" data-transition="slide">Your tracks</a></li>
-                    <!--<li><a href="#view_user_tracks" data-transition="slide">Driver Tracks</a></li>-->
-                    <li><a href="#add_track" data-transition="slide">Upload Track</a></li>
-                    <li><a href="../j_spring_security_logout">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-        <div data-role="page" id="view_map" style="width:100%; height:100%;">
-            <div data-role="header" data-position="fixed" id="view_map_header">
-                <a data-rel="back">Back</a>
-                <h2>Tracks near you</h2>
-            </div>
-            <div data-role="content" style="width:100%; height:100%; padding:0;">
-                <div id="map_tracks"></div>
-            </div>
-        </div>
-        <div data-role="page" id="track_details" style="width:100%; height:100%;">
-            <div data-role="header" data-position="fixed">
-                <a data-rel="back">Back</a>
-                <h2>Track Details</h2></div>
-            <div data-role="content" style="width:100%; height:100%; padding:0;">
-                <div id="track_details_map" style="padding: 0;"></div>
-                <div id="altProfile" style="padding: 0;"></div>
-            </div>
-        </div>
-        <div data-role="page" id="view_user_tracks" style="width:100%; height:100%;">
-            <div data-role="header" data-position="fixed">
-                <a data-rel="back">Back</a>
-                <h2>Your Tracks</h2>
-            </div>
-            <ul data-role="listview" id="userTrackListTemplate" data-inset="true" data-role="listview" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
-                <li data-template data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top ui-btn-up-c"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>Turvo Tracker App</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css"/>
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAD9/f0F/Pz8DP///wD///8P////Dv///xL///8P////A////wD///8A/v7+Cf///wX///8A////APv7+wr9/f0D+/v7Dv///wb///81+vv8i/v7/Iv3+PqL4+nxi+ru9JHy9Piu5+zzru3w9ZD+/v5x/v7+H////wr///8A9/f3H/7+/g7///8J////HNDX5Pyaq8j/m6zJ/5esy/+QpcX/larK/5uwzv+MoMH/mqrG/5qlv+7Q0Nty/f3+Af///wD///8A/v7+A////wz+/v6b2d/q/4abvf+Emr7/jKHD/5Gnyf+Uqsz/fpW5/4mXuP/U1OL/e3ui+MPE0l7///8A////AP///wD///8P////Xa680/9/lrr/kafJ/5yy0/+WrM7/nbPT/52uyv+ktM7/1NTi/8LC1f+lpr3n////AP///wD///8A////AP7+/mDo7PL/ytPi/5yv0fehsuXuuMvl0Kq81drS2uf8+/z9bff3+SG5uM1r8vL1ff///wD///8A////AP///wr+/v4H/v7+jufq8umIg/Sut7L9YKul/W7PzvlMnZn03Ozq/x/+/v4H////AP///wD///8A////AP///wD///8A5OH/IpuS/pF3cfPploz/hH5y/6F/dP+gl47/gkw++e7Hwv9Fta//XPj4/gf///8A////AP///wD///8A+vn/BoyB/pGlnf5vfHfxy4mA/JlIOf/lmZD+f1lK/89kWPrPmZD+f9zY/yu3sP5ar6j/ZP///wD///8A6uj/GbSt/l6imv9yVkf/1HBm+MJ5eOrlhX/1s2JY+dRpYPfPv7/zb4+F/41WR//Uloz/hI6E/47///8A////AOro/xmnn/9teW3/qH5y/6HKxf9B9/n7Fc3N9VfMyvlQraj6cbWv/1zj4f4h2tf/Lks7/+NmWP+/0s7/OP///wCvqP9kjoT/jo6E/46Sif+I+vn/Bt3a/ypsX/+5////AH90/6Dj4f4h0Mz/OrWv/1yyq/9gkon/iNzY/yv///8A19P/MvLx/g////8A////APX0/wxvYv6119P/MtzY/ytmWP+/oZj/df///wBQQP/dt7D+Wv///wD///8A////AP///wD///8A////AKyk/2makf9+UUL/283J/z/l4/8f1dH/M////wD///8At7D+Wv39/gH///8A////AP///wD///8A////AP///wDa1/8u2tf/LtrX/y719P8M////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A//8AAOAfAADgBwAA4AMAAPABAADwHwAA8d8AAPAfAADonwAA8CEAAOf5AADGvQAA/bcAAP3/AAD//wAA//8AAA==" rel="icon" type="image/x-icon" />
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="../js/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="../js/tempo.min.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+</head>
+<body>
+<div data-role="page" id="home" style="width:100%; height:100%;">
+    <div data-role="header" data-position="fixed"><h2>Turvo Track</h2></div>
+    <div data-role="content" style="padding:0;">
+        <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="a">
+            <li data-role="list-divider">Options</li>
+            <!--<li><a href="#view_map" data-transition="pop">View tracks near you</a></li>-->
+            <li><a href="#view_user_tracks" data-transition="slide">Your tracks</a></li>
+            <!--<li><a href="#view_user_tracks" data-transition="slide">Driver Tracks</a></li>-->
+            <li><a href="#add_track" data-transition="slide">Upload Track</a></li>
+            <li><a href="../j_spring_security_logout">Logout</a></li>
+        </ul>
+    </div>
+</div>
+<div data-role="page" id="view_map" style="width:100%; height:100%;">
+    <div data-role="header" data-position="fixed" id="view_map_header">
+        <a data-rel="back">Back</a>
+        <h2>Tracks near you</h2>
+    </div>
+    <div data-role="content" style="width:100%; height:100%; padding:0;">
+        <div id="map_tracks"></div>
+    </div>
+</div>
+<div data-role="page" id="track_details" style="width:100%; height:100%;">
+    <div data-role="header" data-position="fixed">
+        <a data-rel="back">Back</a>
+        <h2>Track Details</h2></div>
+    <div data-role="content" style="width:100%; height:100%; padding:0;">
+        <div id="track_details_map" style="padding: 0;"></div>
+        <div id="altProfile" style="padding: 0;"></div>
+    </div>
+</div>
+<div data-role="page" id="view_user_tracks" style="width:100%; height:100%;">
+    <div data-role="header" data-position="fixed">
+        <a data-rel="back">Back</a>
+        <h2>Your Tracks</h2>
+    </div>
+    <ul data-role="listview" id="userTrackListTemplate" data-inset="true" data-role="listview"
+        class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+        <li data-template data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false"
+            data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c"
+            class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top ui-btn-up-c">
+            <div class="ui-btn-inner ui-li ui-corner-top">
+                <div class="ui-btn-text"><a href="#" class="ui-link-inherit">
                     {{name}}
-                </a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li>
-            </ul>
-        </div>
-        <div data-role="page" id="add_track" style="width:100%; height:100%;">
-            <div data-role="header" data-position="fixed">
-                <a data-rel="back">Back</a>
-                <h2>Upload Track</h2>
-            </div>
-            <div data-role="content" style="padding:0;">
-                <form action="../services/track/upload" method="post" id="upload-form" enctype="multipart/form-data" data-ajax="false">
-                    <input id="file" name="file" type="file"/>
-                    <input id="upload_track" type="submit" value="Add"/>
-                </form>
-            </div>
-        </div>
-    </body>
+                </a></div>
+                <span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>
+        </li>
+    </ul>
+</div>
+<div data-role="page" id="add_track" style="width:100%; height:100%;">
+    <div data-role="header" data-position="fixed">
+        <a data-rel="back">Back</a>
+        <h2>Upload Track</h2>
+    </div>
+    <div data-role="content" style="padding:0;">
+        <form action="../services/track/upload" method="post" id="upload-form" enctype="multipart/form-data"
+              data-ajax="false">
+            <input id="file" name="file" type="file"/>
+            <input id="upload_track" type="submit" value="Add"/>
+        </form>
+    </div>
+</div>
+</body>
 </html>

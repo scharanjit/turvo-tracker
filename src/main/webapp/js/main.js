@@ -4,22 +4,22 @@ var trackDetailsMap = null;
 var currentTrack = null;
 var userTrackListTemplate = null;
 
-var infoWindow = new google.maps.InfoWindow({ maxWidth: 200});
+var infoWindow = new google.maps.InfoWindow({maxWidth: 200});
 
 var maxdistance = 5.5;
 
 // Page stuff
 
-$("#view_map").live("pageinit", function() {
+$("#view_map").live("pageinit", function () {
     initMapSize("#map_tracks");
 });
 
-$("#view_map").live("pageshow", function() {
+$("#view_map").live("pageshow", function () {
     mapMarkers = [];
     var lat = 48.128569; // default location: cS HQ
     var lon = 11.557289;
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
             initTracksPage(lat, lon);
@@ -37,11 +37,11 @@ function initTracksPage(lat, lon) {
     addDragendListener();
 }
 
-$("#track_details").live("pageinit", function() {
+$("#track_details").live("pageinit", function () {
     initTrackDetailsPage();
 });
 
-$("#track_details").live("pageshow", function() {
+$("#track_details").live("pageshow", function () {
     trackDetailsMap = initMap("track_details_map", currentTrack.start.lat, currentTrack.start.lon);
     google.maps.event.trigger(trackDetailsMap, 'resize');
     drawTrackOnMap(currentTrack);
@@ -56,26 +56,26 @@ function initTrackDetailsPage() {
     var mapdivMap = $("#track_details_map");
     var altDiv = $("#altProfile");
 
-        mapdivMap.width(600);
-        mapdivMap.height(650);
-        altDiv.width(200);
-        altDiv.height(150);
+    mapdivMap.width(600);
+    mapdivMap.height(650);
+    altDiv.width(200);
+    altDiv.height(150);
 }
 
-$('#view_user_tracks').live('pagecreate', function() {
+$('#view_user_tracks').live('pagecreate', function () {
     userTrackListTemplate = Tempo.prepare('userTrackListTemplate');
 });
 
 
-$('#view_user_tracks').live('pagebeforeshow', function() {
+$('#view_user_tracks').live('pagebeforeshow', function () {
     var path = '../services/track/foruser';
-    $.getJSON(path, function(data) {
+    $.getJSON(path, function (data) {
         userTrackListTemplate.render(data);
     });
     $('#userTrackListTemplate').listview('refresh');
 });
 
-$('#view_user_tracks').live('pagehide', function() {
+$('#view_user_tracks').live('pagehide', function () {
     userTrackListTemplate.clear();
     $('#userTrackListTemplate').listview('refresh');
 });
@@ -88,8 +88,8 @@ function loadTracksInBounds(bound) {
     var lat2 = bound.getSouthWest().lat();
     var lon2 = bound.getSouthWest().lng();
     var path = '../services/track/get/' + lon1 + '/' + lat1 + '/' + lon2 + '/' + lat2 + '/';
-    $.getJSON(path, function(data) {
-        $.each(data, function(idx, track) {
+    $.getJSON(path, function (data) {
+        $.each(data, function (idx, track) {
             addMarker(track);
         });
     });
@@ -97,8 +97,8 @@ function loadTracksInBounds(bound) {
 
 function loadTracks(lat, lon) {
     var path = '../services/track/get/' + lon + '/' + lat + '/' + maxdistance + '/';
-    $.getJSON(path, function(data) {
-        $.each(data, function(idx, track) {
+    $.getJSON(path, function (data) {
+        $.each(data, function (idx, track) {
             addMarker(track);
         });
     });
@@ -106,10 +106,10 @@ function loadTracks(lat, lon) {
 
 // Maps stuff
 
-function initMap(id, lat,lng) {
+function initMap(id, lat, lng) {
     var myOptions = {
         zoom: 14,
-        center: new google.maps.LatLng(lat,lng),
+        center: new google.maps.LatLng(lat, lng),
         mapTypeId: google.maps.MapTypeId.TERRAIN
     }
 
@@ -117,22 +117,22 @@ function initMap(id, lat,lng) {
 }
 
 function addDragendListener() {
-    google.maps.event.addListener(map, "dragend", function() {
+    google.maps.event.addListener(map, "dragend", function () {
         loadTracksInBounds(map.getBounds());
     });
 
-    google.maps.event.addListener(map, "zoom_changed", function() {
+    google.maps.event.addListener(map, "zoom_changed", function () {
         loadTracksInBounds(map.getBounds());
     });
 
 }
 
 function isMarkerAlreadyOnMap(name) {
-    return  -1 != jQuery.inArray(name, mapMarkers);
+    return -1 != jQuery.inArray(name, mapMarkers);
 }
 
 function addMarker(track) {
-    if(!isMarkerAlreadyOnMap(track.name)) {
+    if (!isMarkerAlreadyOnMap(track.name)) {
         mapMarkers.push(track.name);
         var name = track.name;
         var user = track.user;
@@ -145,11 +145,11 @@ function addMarker(track) {
             map: map,
             animation: google.maps.Animation.DROP
         });
-        var contentString = '<div id="content"><div id="siteNotice"><p class="info_box">' + name + '<br/> Von: '+ user +'<br/><a class="viewTrackDetails" href="#track_details" data-transition="slide">Details</a></div></div>';
+        var contentString = '<div id="content"><div id="siteNotice"><p class="info_box">' + name + '<br/> Von: ' + user + '<br/><a class="viewTrackDetails" href="#track_details" data-transition="slide">Details</a></div></div>';
 
-        google.maps.event.addListener(testmarker, 'click', function() {
+        google.maps.event.addListener(testmarker, 'click', function () {
             infoWindow.setContent(contentString);
-            infoWindow.open(map,testmarker);
+            infoWindow.open(map, testmarker);
             currentTrack = track;
         });
     }
@@ -157,30 +157,30 @@ function addMarker(track) {
 
 function initMapSize(id) {
     var mapdivMap = $(id);
-        mapdivMap.width('600px');
-        mapdivMap.height('800px');
+    mapdivMap.width('600px');
+    mapdivMap.height('800px');
 };
 
 
 function drawAltProfile(track) {
     var altValues = [];
     var km = 0;
-    for(var i = 0; i < track.data.length; i++) {
+    for (var i = 0; i < track.data.length; i++) {
         var point = currentTrack.data[i];
-        if(i > 0) {
-            var prevPoint = currentTrack.data[i-1];
+        if (i > 0) {
+            var prevPoint = currentTrack.data[i - 1];
             km = km + calculateDistance(prevPoint.lat, prevPoint.lon, point.lat, point.lon);
         }
         altValues.push([km, point.ele]);
     }
-    $.plot($('#altProfile'), [ {label: 'Altitude (m)', data: altValues}]);
+    $.plot($('#altProfile'), [{label: 'Altitude (m)', data: altValues}]);
 }
 
 function drawTrackOnMap(currentTrack) {
     var trackCoordinates = [];
     var bounds = new google.maps.LatLngBounds();
 
-    for(var i = 0; i < currentTrack.data.length; i++) {
+    for (var i = 0; i < currentTrack.data.length; i++) {
         var point = currentTrack.data[i];
         var latLng = new google.maps.LatLng(point.lat, point.lon);
         trackCoordinates.push(latLng);
@@ -195,7 +195,7 @@ function drawTrackOnMap(currentTrack) {
     });
 
     new google.maps.Marker({
-        position: trackCoordinates[trackCoordinates.length-1],
+        position: trackCoordinates[trackCoordinates.length - 1],
         map: trackDetailsMap,
         animation: google.maps.Animation.DROP,
         title: "End"
@@ -217,14 +217,14 @@ function drawTrackOnMap(currentTrack) {
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     var R = 6371; // km
-    var dLat = toRad(lat2-lat1);
-    var dLon = toRad(lon2-lon1);
+    var dLat = toRad(lat2 - lat1);
+    var dLon = toRad(lon2 - lon1);
     var lat1 = toRad(lat1);
     var lat2 = toRad(lat2);
 
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
 }
 
@@ -241,9 +241,9 @@ function addPOIs(mapForPOIs) {
     });
     var contentString = '<div id="content"><div id="siteNotice"><p class="info_box"><a href="http://careers.comsysto.com/">careers.comsysto.com</a></div></div>';
 
-    google.maps.event.addListener(marker, 'click', function() {
+    google.maps.event.addListener(marker, 'click', function () {
         infoWindow.setContent(contentString);
-        infoWindow.open(mapForPOIs,marker);
+        infoWindow.open(mapForPOIs, marker);
         currentTrack = track;
     });
 }

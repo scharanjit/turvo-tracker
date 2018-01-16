@@ -15,7 +15,8 @@
         <intercept-url pattern="/secure/**" access="hasRole('ROLE_USER')"/>
         <!-- <intercept-url pattern="/services/**" access="hasRole('ROLE_USER')"/> -->
 
-        <form-login login-page="/index.jsp" authentication-failure-url="/index.jsp?fail" default-target-url="/secure/index.html"/>
+        <form-login login-page="/index.jsp" authentication-failure-url="/index.jsp?fail"
+                    default-target-url="/secure/index.html"/>
         <logout logout-success-url="/index.jsp?loggedout" delete-cookies="JSESSIONID"/>
         <!--<remember-me/>-->
 

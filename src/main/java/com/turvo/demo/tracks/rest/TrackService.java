@@ -6,8 +6,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.geo.Box;
-import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
@@ -51,56 +49,66 @@ public class TrackService {
     private MongoOperations mongoOps;
 
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/get", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Track> getAll() throws Exception {
         return mongoOps.findAll(Track.class);
     }
 
-    @RequestMapping(value = "/get/{lon1}/{lat1}/{lon2}/{lat2}/", method = RequestMethod.GET, produces = "application/json")
-    public
-    @ResponseBody
-    List<Track> getByBounds(@PathVariable("lon1") Double lon1, @PathVariable("lat1") Double lat1, @PathVariable("lon2") Double lon2, @PathVariable("lat2") Double lat2) throws Exception {
-        /*
-        > box = [[40.73083, -73.99756], [40.741404,  -73.988135]]
-        > db.places.find({"loc" : {"$within" : {"$box" : box}}})
-         */
-        Criteria criteria = new Criteria(START).within(new Box(new Point(lon1, lat1), new Point(lon2, lat2)));
-        List<Track> tracks = mongoOps.find(new Query(criteria),
-                Track.class);
-        return tracks;
-    }
+//    @RequestMapping(value = "/get/{lon1}/{lat1}/{lon2}/{lat2}/", method = RequestMethod.GET, produces = "application/json")
+//    public
+//    @ResponseBody
+//    List<Track> getByBounds(@PathVariable("lon1") Double lon1, @PathVariable("lat1") Double lat1, @PathVariable("lon2") Double lon2, @PathVariable("lat2") Double lat2) throws Exception {
+//        /*
+//        > box = [[40.73083, -73.99756], [40.741404,  -73.988135]]
+//        > db.places.find({"loc" : {"$within" : {"$box" : box}}})
+//         */
+//        Criteria criteria = new Criteria(START).within(new Box(new Point(lon1, lat1), new Point(lon2, lat2)));
+//        List<Track> tracks = mongoOps.find(new Query(criteria),
+//                Track.class);
+//        return tracks;
+//    }
+//
+//    @RequestMapping(value = "/get/{lon}/{lat}/{maxdistance}", method = RequestMethod.GET, produces = "application/json")
+//    public
+//    @ResponseBody
+//    List<Track> getByLocation(@PathVariable("lon") Double lon, @PathVariable("lat") Double lat, @PathVariable("maxdistance") Double maxdistance) throws Exception {
+//        Criteria criteria = new Criteria(START).near(new Point(lon, lat)).maxDistance(getInKilometer(maxdistance));
+//        List<Track> tracks = mongoOps.find(new Query(criteria),
+//                Track.class);
+//        return tracks;
+//    }
 
-    @RequestMapping(value = "/get/{lon}/{lat}/{maxdistance}", method = RequestMethod.GET, produces = "application/json")
-    public
-    @ResponseBody
-    List<Track> getByLocation(@PathVariable("lon") Double lon, @PathVariable("lat") Double lat, @PathVariable("maxdistance") Double maxdistance) throws Exception {
-        Criteria criteria = new Criteria(START).near(new Point(lon, lat)).maxDistance(getInKilometer(maxdistance));
-        List<Track> tracks = mongoOps.find(new Query(criteria),
-                Track.class);
-        return tracks;
-    }
 
+//    /**
+//     * The current implementation of near assumes an idealized model of a flat earth, meaning that an arcdegree
+//     * of latitude (y) and longitude (x) represent the same distance everywhere.
+//     * This is only true at the equator where they are both about equal to 69 miles or 111km. Therefore you must divide the
+//     * distance you want by 111 for kilometer and 69 for miles.
+//     *
+//     * @param maxdistance The distance around a point.
+//     * @return The calcuated distance in kilometer.
+//     */
+//    private Double getInKilometer(Double maxdistance) {
+//        return maxdistance / KILOMETER;
+//    }
+//
+//    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
+//    @ResponseStatus(HttpStatus.OK)
+//    public void add(@RequestBody Track track) throws Exception {
+//        mongoOps.insert(track);
+//    }
 
     /**
-     * The current implementation of near assumes an idealized model of a flat earth, meaning that an arcdegree
-     * of latitude (y) and longitude (x) represent the same distance everywhere.
-     * This is only true at the equator where they are both about equal to 69 miles or 111km. Therefore you must divide the
-     * distance you want by 111 for kilometer and 69 for miles.
      *
-     * @param maxdistance The distance around a point.
-     * @return The calcuated distance in kilometer.
+     * @return
+     * @throws Exception
      */
-    private Double getInKilometer(Double maxdistance) {
-        return maxdistance / KILOMETER;
-    }
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public void add(@RequestBody Track track) throws Exception {
-        mongoOps.insert(track);
-    }
-
     @RequestMapping(value = "/foruser", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
@@ -112,6 +120,12 @@ public class TrackService {
         return tracks;
     }
 
+    /**
+     *
+     * @param driver
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/fordriver/{driver}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
@@ -122,6 +136,13 @@ public class TrackService {
         return tracks;
     }
 
+    /**
+     *
+     * @param driver
+     * @param vehicleType
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/forDriverWithVehicleType/{driver}/{vehicleType}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
@@ -132,6 +153,14 @@ public class TrackService {
         return tracks;
     }
 
+
+    /**
+     *
+     * @param driver
+     * @param vehicleID
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/forDriverWithVehicleID/{driver}/{vehicleID}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
@@ -142,20 +171,32 @@ public class TrackService {
         return tracks;
     }
 
+    /**
+     *
+     * @param vehicleType
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/forVehicleType/{vehicleType}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<Track> tracksForVehicleType( @PathVariable("vehicleType") String vehicleType) throws Exception {
+    List<Track> tracksForVehicleType(@PathVariable("vehicleType") String vehicleType) throws Exception {
         Criteria criteria = Criteria.where(VEHICLETYPEDETAILS).is(vehicleType);
         List<Track> tracks = mongoOps.find(new Query(criteria),
                 Track.class);
         return tracks;
     }
 
+    /**
+     *
+     * @param vehicleID
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/forVehicleID/{vehicleID}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<Track> tracksForVehicleID( @PathVariable("vehicleID") String vehicleID) throws Exception {
+    List<Track> tracksForVehicleID(@PathVariable("vehicleID") String vehicleID) throws Exception {
         Criteria criteria = Criteria.where(VEHICLEIDDETAILS).is(vehicleID);
         List<Track> tracks = mongoOps.find(new Query(criteria),
                 Track.class);
@@ -163,10 +204,18 @@ public class TrackService {
     }
 
 
+    /**
+     *
+     * @param driver
+     * @param vehicleType
+     * @param date
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/forDriverWithVehicleTypeAndDate/{driver}/{vehicleType}/{date}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<Track> tracksForDriverWithVehicleTypeAndDate(@PathVariable("driver") String driver, @PathVariable("vehicleType") String vehicleType,  @PathVariable("date") String date) throws Exception {
+    List<Track> tracksForDriverWithVehicleTypeAndDate(@PathVariable("driver") String driver, @PathVariable("vehicleType") String vehicleType, @PathVariable("date") String date) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
         Date dateObj = sdf.parse(date);
         Criteria criteria = Criteria.where(DRIVER).is(driver).and(VEHICLETYPEDETAILS).is(vehicleType).and(DATE).is(dateObj);
@@ -175,6 +224,11 @@ public class TrackService {
         return tracks;
     }
 
+    /**
+     *
+     * @param multipartFile
+     * @throws Exception
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void upload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
@@ -185,6 +239,10 @@ public class TrackService {
         mongoOps.insert(track);
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/getPosition", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

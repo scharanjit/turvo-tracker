@@ -13,9 +13,9 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
-    <context:component-scan base-package="com.turvo.demo.tracks.rest" />
+    <context:component-scan base-package="com.turvo.demo.tracks.rest"/>
 
     <!-- Multipart-Resolver for track uploads -->
 
@@ -36,7 +36,6 @@
         <constructor-arg ref="mongo"/>
         <constructor-arg name="databaseName" value="user"/>
     </bean>
-
 
 
 </beans>
