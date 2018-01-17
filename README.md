@@ -15,6 +15,9 @@ How to Run
 
 3.) cd to project folder & run thid command
     mvn org.mortbay.jetty:maven-jetty-plugin:run
+    or just do
+    mvn jetty:run
+    
     
 
 4.)
