@@ -1,9 +1,23 @@
 Getting Started
 ===============
 
-This ```readme``` is under construction
 
-This is a REST web service using spring+JPA+Mongodb which will be used to save GPS data.
+This is a REST web service using spring+Mongodb which will be use to save GPS data & track device location.
+Refer the /Design/ folder for class diagram, flow  & architecture details.
+
+
+
+Technology Stack
+===============
+
+````
+Java 1.7
+MongoDB shell version: 3.2.18
+Apache Maven 3.3.9
+maven-jetty plugin 6.1.26
+
+````
+
 
 How to Run
 ==========
@@ -18,10 +32,6 @@ How to Run
     or just do
     mvn jetty:run
     
-    
-
-4.)
-
 
 Test Rest Commands
 ==================
