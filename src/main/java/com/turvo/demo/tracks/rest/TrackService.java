@@ -60,50 +60,6 @@ public class TrackService {
         return mongoOps.findAll(Track.class);
     }
 
-//    @RequestMapping(value = "/get/{lon1}/{lat1}/{lon2}/{lat2}/", method = RequestMethod.GET, produces = "application/json")
-//    public
-//    @ResponseBody
-//    List<Track> getByBounds(@PathVariable("lon1") Double lon1, @PathVariable("lat1") Double lat1, @PathVariable("lon2") Double lon2, @PathVariable("lat2") Double lat2) throws Exception {
-//        /*
-//        > box = [[40.73083, -73.99756], [40.741404,  -73.988135]]
-//        > db.places.find({"loc" : {"$within" : {"$box" : box}}})
-//         */
-//        Criteria criteria = new Criteria(START).within(new Box(new Point(lon1, lat1), new Point(lon2, lat2)));
-//        List<Track> tracks = mongoOps.find(new Query(criteria),
-//                Track.class);
-//        return tracks;
-//    }
-//
-//    @RequestMapping(value = "/get/{lon}/{lat}/{maxdistance}", method = RequestMethod.GET, produces = "application/json")
-//    public
-//    @ResponseBody
-//    List<Track> getByLocation(@PathVariable("lon") Double lon, @PathVariable("lat") Double lat, @PathVariable("maxdistance") Double maxdistance) throws Exception {
-//        Criteria criteria = new Criteria(START).near(new Point(lon, lat)).maxDistance(getInKilometer(maxdistance));
-//        List<Track> tracks = mongoOps.find(new Query(criteria),
-//                Track.class);
-//        return tracks;
-//    }
-
-
-//    /**
-//     * The current implementation of near assumes an idealized model of a flat earth, meaning that an arcdegree
-//     * of latitude (y) and longitude (x) represent the same distance everywhere.
-//     * This is only true at the equator where they are both about equal to 69 miles or 111km. Therefore you must divide the
-//     * distance you want by 111 for kilometer and 69 for miles.
-//     *
-//     * @param maxdistance The distance around a point.
-//     * @return The calcuated distance in kilometer.
-//     */
-//    private Double getInKilometer(Double maxdistance) {
-//        return maxdistance / KILOMETER;
-//    }
-//
-//    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void add(@RequestBody Track track) throws Exception {
-//        mongoOps.insert(track);
-//    }
-
     /**
      *
      * @return
