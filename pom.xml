@@ -163,6 +163,14 @@
             <version>0.8.1</version>
             <scope>test</scope>
         </dependency>
+        <!--Adding redis dependency-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>1.0.1.RELEASE</version>
+            </dependency>
+
+
     </dependencies>
 
     <repositories>
